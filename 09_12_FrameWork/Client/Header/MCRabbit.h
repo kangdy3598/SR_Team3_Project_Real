@@ -2,6 +2,7 @@
 #include "TextBox.h"
 #include "QuestNPC.h"
 #include "Rhino.h"
+#include "MonsterMothMage.h"
 
 class CMCRabbit : public CQuestNPC
 {
@@ -12,7 +13,7 @@ private:
 public:
 	enum MONSTER_NUM
 	{
-		RHINO, NUM_END
+		RHINO, MOTH_MAGE, NUM_END
 	};
 
 	virtual   HRESULT   Ready_GameObject();
@@ -34,7 +35,7 @@ private:
 	MONSTER_NUM m_eMonster;
 
 	CRhino* m_pRhino;
-
+	CMonsterMothMage* m_pMothMage;
 
 public:
 	static CMCRabbit* Create(LPDIRECT3DDEVICE9 pGraphicDev);

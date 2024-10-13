@@ -34,6 +34,7 @@ HRESULT CStage::Ready_Scene()
 		player->Get_Component(ID_DYNAMIC, L"Com_Transform")
 		)->Set_Pos(110.f, 30.f, 200.f);
 
+	
 	return S_OK;
 
 }
@@ -140,14 +141,14 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* pLayerTag)
 
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Map", pGameObject), E_FAIL);
 
-	pGameObject = CMap::Create(m_pGraphicDev);	
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);		
+	pGameObject = CMap::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Map", pGameObject), E_FAIL);
 
 	//pGameObject = CTestMap::Create(m_pGraphicDev);	
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);	
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StartMap", pGameObject), E_FAIL);	
-	 
+
 	//pGameObject = CTerrain::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);
@@ -225,11 +226,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* pLayerTag)
 	CScene* pScene = CManagement::GetInstance()->GetCurScenePtr();
 
 	//1010
-	pGameObject = CGrass::Create(m_pGraphicDev);	
+	pGameObject = CGrass::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Grass", pGameObject), E_FAIL);
 	dynamic_cast<CTransform*>(pGameObject->Get_Component(ID_DYNAMIC, L"Com_Transform"))->Set_Pos(350.f, 20.f, 180.f);
-	CManagement::GetInstance()->GetCurScenePtr()->Add_ObjectGroup(GROUP_TYPE::OBJECT, pGameObject);	
+	CManagement::GetInstance()->GetCurScenePtr()->Add_ObjectGroup(GROUP_TYPE::OBJECT, pGameObject);
 
 #pragma region Pipe Game
 

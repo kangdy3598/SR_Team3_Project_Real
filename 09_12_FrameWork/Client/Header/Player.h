@@ -159,7 +159,8 @@ public:
 	void			SetPassAble(_bool value) { m_bPassAble = value; }
 	// 플레이어 상태를 아이템 획득 모션으로 변경합니다.
 	void			ChangePickUpState();
-
+	// 플레이어 상태를 숭숭 익스프레스 모션으로 변경합니다.
+	void			ChangeBalloonFlyState();
 	// 플레이어 능력치 관련 //////////////////////////////////////////////////////
 	float			GetMoveSpeed() { return m_fMoveSpeed; }
 	void			SetMoveSpeed(float _fSpeed) { m_fMoveSpeed = _fSpeed; }

@@ -34,6 +34,7 @@ public:
 
 	_vec3 GetWorldVecMin() { return m_vWolrdVecMin; }
 	_vec3 GetWorldVecMax() { return m_vWolrdVecMax; }
+	void  SetColBoxSize(_vec3 _vBoxSize) { m_vColBoxSize = _vBoxSize; }
 private:
 	virtual void Free();
 
@@ -45,6 +46,7 @@ private:
 	_vec3		 m_VecMax;
 	_vec3		 m_vWolrdVecMin;
 	_vec3		 m_vWolrdVecMax;
+	_vec3        m_vColBoxSize;
 
 	D3DXVECTOR3* pVertices;
 	CGameObject* m_pGameObjPtr;

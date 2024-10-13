@@ -9,6 +9,7 @@ CCollider::CCollider()
     : m_pMesh(nullptr)
     , m_VecMin(0.f, 0.f, 0.f)
     , m_VecMax(0.f, 0.f, 0.f)
+    , m_vColBoxSize(1.f, 1.f, 1.f)
     , m_pGameObjPtr(nullptr)
     , m_bisCollision(false)
     , m_iID(0)
@@ -21,6 +22,7 @@ CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphicDev)
     , m_pMesh(nullptr)
     , m_VecMin(0.f, 0.f, 0.f)
     , m_VecMax(0.f, 0.f, 0.f)
+    , m_vColBoxSize(1.f, 1.f, 1.f)
     , m_pGameObjPtr(nullptr)
     , m_bisCollision(false)
     , m_iID(0)
@@ -33,6 +35,7 @@ CCollider::CCollider(const CCollider& rhs)
     , m_pMesh(rhs.m_pMesh)
     , m_VecMin(rhs.m_VecMin)
     , m_VecMax(rhs.m_VecMax)
+    , m_vColBoxSize(rhs.m_vColBoxSize)
     , m_bisCollision(rhs.m_bisCollision)
     , m_iID(g_iNextID++)
 {
@@ -52,7 +55,10 @@ HRESULT CCollider::Ready_Buffer()
     //D3DXVECTOR3* pVertices;
 
     m_pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVertices);
-    D3DXComputeBoundingBox(pVertices, m_pMesh->GetNumVertices(), m_pMesh->GetNumBytesPerVertex(), &m_VecMin, &m_VecMax);
+
+    D3DXComputeBoundingBox(pVertices,
+        m_pMesh->GetNumVertices(), m_pMesh->GetNumBytesPerVertex(),
+        &m_VecMin, &m_VecMax);
     m_pMesh->UnlockVertexBuffer();
 
     return S_OK;
@@ -101,14 +107,13 @@ void CCollider::Render_Buffer()
 
     m_bisCollision = false;
 
-
+    
     m_pGraphicDev->SetTexture(0, 0);
     m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
     m_pMesh->DrawSubset(0);
     m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
     m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-
 }
 
 _int CCollider::Update_Component(const _float& fTimeDelta)
@@ -121,14 +126,11 @@ _int CCollider::Update_Component(const _float& fTimeDelta)
     //m_pGraphicDev->GetTransform(D3DTS_WORLD, &worldmatirx);
     CTransform* pTransformCom = dynamic_cast<CTransform*>(m_pGameObjPtr->Find_Component(ID_DYNAMIC, L"Com_Transform"));
 
-
     m_vWolrdVecMin = { 0.f,0.f,0.f };
     m_vWolrdVecMin = { 0.f,0.f,0.f };
 
     D3DXVec3TransformCoord(&m_vWolrdVecMin, &m_VecMin, pTransformCom->Get_WorldMatrix());
     D3DXVec3TransformCoord(&m_vWolrdVecMax, &m_VecMax, pTransformCom->Get_WorldMatrix());
-
-
 
     return 0;
 }

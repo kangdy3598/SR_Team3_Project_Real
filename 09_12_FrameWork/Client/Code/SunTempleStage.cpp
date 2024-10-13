@@ -173,13 +173,11 @@ HRESULT CSunTempleStage::Ready_Layer_GameLogic(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-   
     pGameObject = CSunTempleMap::Create(m_pGraphicDev);
     NULL_CHECK_RETURN(pGameObject, E_FAIL); 
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SunTempleMap", pGameObject), E_FAIL);   
 
 	CGameObject* PlayerObj = pLayer->Get_GameObject(L"Layer_GameLogic", L"Player");
-
 	_float fOffsetX = 1030;
 	_float fOffsetZ = 500;
 	

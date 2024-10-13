@@ -27,7 +27,11 @@ public:
 	virtual   void      LateUpdate_GameObject(const _float& fTimeDelta);
 	virtual   void      Render_GameObject();
 
-	void				CallStoreUI(_bool _Call) { m_bCall = _Call; }
+	void				CallStoreUI(_bool _Call) 
+	{
+		Engine::Get_Layer(L"Layer_GameLogic")->SetGameState(GAMESTATE_UIOPEN);
+		m_bCall = _Call;
+	}
 
 
 public:

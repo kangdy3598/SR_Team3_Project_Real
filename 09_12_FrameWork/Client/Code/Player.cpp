@@ -56,6 +56,8 @@ HRESULT CPlayer::Ready_GameObject()
 
     m_pStateControlCom->ChangeState(PlayerIdle::GetInstance(), this);
 
+    _vec3 size(0.1f, 0.1f, 0.1f);
+    m_pBoundBox->SetColBoxSize(size);
 
     D3DLIGHT9		tLightInfo;
     ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
@@ -98,6 +100,11 @@ void CPlayer::LateReady_GameObject()
 
 _int CPlayer::Update_GameObject(const _float& fTimeDelta)
 {
+    if (Engine::GetKeyDown(DIK_G))
+    {
+        m_pStateControlCom->ChangeState(PlayerBalloonFly::GetInstance(), this);
+    }
+
     if (Get_Layer(L"Layer_GameLogic")->GetGameState() == GAMESTATE_NONE ||
         GetPlayerState() == PLAYERSTATE::PLY_PICKUP)
     {
@@ -202,9 +209,16 @@ void CPlayer::Render_GameObject()
 
     //9월 25일 충돌관련
     if (!m_bInvincible)
-        //m_pBoundBox->Render_Buffer();
+        m_pBoundBox->Render_Buffer();
 
+    _vec2 position(200.f, 100.f);
+    TCHAR  szFileName[128] = L"";
+    swprintf_s(szFileName, L"Position X : %f", GetPlayerPos().x);
+    Engine::Render_Font(L"Font_OguBold24", szFileName, &position, D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
 
+    position.y += 50;
+    swprintf_s(szFileName, L"Position Z : %f", GetPlayerPos().z);
+    Engine::Render_Font(L"Font_OguBold24", szFileName, &position, D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
 
     m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);  // 이거 설정안해주면 안됨 전역적으로 장치세팅이 저장되기 때문에
@@ -354,17 +368,18 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-    if (Engine::GetKeyDown(DIK_G))
-        m_pStateControlCom->ChangeState(PlayerBalloonFly::GetInstance(), this);
-
     //1013
     if (Engine::GetKeyDown(DIK_I))
     {
         m_bInven ^= TRUE;
         if(m_bInven == FALSE)
             Engine::Play_Sound(L"SFX_68_UIBig_Close.wav", SOUND_EFFECT, 0.3);
-        else if(m_bInven == TRUE)
+        else
+        {
+            Engine::Get_Layer(L"Layer_GameLogic")->SetGameState(GAMESTATE_UIOPEN);
             Engine::Play_Sound(L"SFX_67_UIBig_Open.wav", SOUND_EFFECT, 0.3);
+        }
+            
 
         m_bQuest = false;
     }
@@ -374,20 +389,15 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
         m_bQuest ^= TRUE;
         if (m_bQuest == FALSE)
             Engine::Play_Sound(L"SFX_68_UIBig_Close.wav", SOUND_EFFECT, 0.3);
-        else if (m_bQuest == TRUE)
+        else
+        {
+            Engine::Get_Layer(L"Layer_GameLogic")->SetGameState(GAMESTATE_UIOPEN);
             Engine::Play_Sound(L"SFX_67_UIBig_Open.wav", SOUND_EFFECT, 0.3);
+        }
+            
         m_bInven = false;
     }
 
-    if (m_bInven || m_bQuest || m_bIsInteracting)
-    {
-        Engine::Get_Layer(L"Layer_GameLogic")->SetGameState(GAMESTATE_UIOPEN);
-        return;
-    }
-    else
-    {
-        Engine::Get_Layer(L"Layer_GameLogic")->SetGameState(GAMESTATE_NONE);
-    }
     // 이 아래 추가 하삼 코드!!
 
 

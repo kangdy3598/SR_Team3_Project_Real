@@ -42,6 +42,8 @@
 
 #include "MoonTempleMap.h"
 #include "TownStage.h"
+#include "MonsterSlimeFast.h"
+#include "MonsterMothMage.h"
 
 class CMoonTempleStage : public CScene
 {

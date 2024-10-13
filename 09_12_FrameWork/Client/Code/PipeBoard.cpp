@@ -256,6 +256,7 @@ void CPipeBoard::OnCollision(CGameObject* _pOther)
 		if (!m_bIsInteracting) {			
 			On_Interacted();
 			static_cast<CPlayer*>(_pOther)->Set_Interacting(true);
+			Engine::Get_Layer(L"Layer_GameLogic")->SetGameState(GAMESTATE_UIOPEN);
 		}
 	}
 
@@ -264,6 +265,7 @@ void CPipeBoard::OnCollision(CGameObject* _pOther)
 		if (m_bIsInteracting) {			
 			On_Exit();
 			static_cast<CPlayer*>(_pOther)->Set_Interacting(false);
+			Engine::Get_Layer(L"Layer_GameLogic")->SetGameState(GAMESTATE_NONE);
 		}
 	}
 }

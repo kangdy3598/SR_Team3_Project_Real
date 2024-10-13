@@ -1028,6 +1028,50 @@ HRESULT CMoonTempleStage::Ready_Layer_GameLogic(const _tchar* pLayerTag)
 	static_cast<Engine::CTransform*>(pGameObject->Get_Component(ID_DYNAMIC, L"Com_Transform"))->Set_Pos(fOffsetX + (30.f * 5), 14.f, fOffsetZ + (30.f * 6));
 #pragma endregion
 
+	/*pGameObject = CMonsterSlimeFast::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"MonsterSlimeFast", pGameObject), E_FAIL);
+	dynamic_cast<CMonster*>(pGameObject)->SetPlayer(dynamic_cast<CPlayer*>(PlayerObj));
+	dynamic_cast<CMonster*>(pGameObject)->GetLayer(pLayer);
+	CManagement::GetInstance()->GetCurScenePtr()->Add_ObjectGroup(GROUP_TYPE::MONSTER, pGameObject);
+	*/
+	for (int i = 0; i < 4; i++)
+	{
+		_tchar* objectName = new _tchar[32];
+		swprintf(objectName, 32, L"MonsterMothMage%d", i);
+
+		pGameObject = CMonsterMothMage::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		FAILED_CHECK_RETURN(pLayer->Add_GameObject(objectName, pGameObject), E_FAIL);
+
+		switch (i)
+		{
+		case 0:
+			dynamic_cast<CTransform*>(
+				pGameObject->Get_Component(ID_DYNAMIC, L"Com_Transform")
+				)->Set_Pos(_vec3(435, 30, 772));
+			break;
+		case 1:
+			dynamic_cast<CTransform*>(
+				pGameObject->Get_Component(ID_DYNAMIC, L"Com_Transform")
+				)->Set_Pos(_vec3(465, 30, 712));
+			break;
+		cass2:
+			dynamic_cast<CTransform*>(
+				pGameObject->Get_Component(ID_DYNAMIC, L"Com_Transform")
+				)->Set_Pos(_vec3(435, 30, 412));
+			break;
+		case 3:
+			dynamic_cast<CTransform*>(
+				pGameObject->Get_Component(ID_DYNAMIC, L"Com_Transform")
+				)->Set_Pos(_vec3(465, 30, 472));
+			break;
+		}
+
+		dynamic_cast<CMonsterMothMage*>(pGameObject)->testNum = i;
+		dynamic_cast<CMonster*>(pGameObject)->GetLayer(pLayer);
+		CManagement::GetInstance()->GetCurScenePtr()->Add_ObjectGroup(GROUP_TYPE::MONSTER, pGameObject);
+	}
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;

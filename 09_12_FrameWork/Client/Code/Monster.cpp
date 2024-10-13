@@ -119,6 +119,8 @@ void CMonster::MoveToPlayer(const _float& fTimeDelta)
     m_pTransformCom->Get_Info(INFO_POS, &monsterPos);
 
     m_vToPlayerDir = playerPos - monsterPos;
+    if (D3DXVec3Length(&m_vToPlayerDir) > 200)
+        return;
 
     _vec3 dir;
     D3DXVec3Normalize(&dir, &m_vToPlayerDir);

@@ -31,21 +31,16 @@ HRESULT CMonsterMothMage::Ready_GameObject()
     m_tMonsterHP.iMaxHP = 3;
     m_fMoveSpeed = 10.f;
 
-
+   
     return S_OK;
 }
 
 void CMonsterMothMage::LateReady_GameObject()
-{
+{    
     Engine::CGameObject::LateReady_GameObject();
 
-    CTransform* PlayerTrasform = static_cast<Engine::CTransform*>(
-        m_CPlayer->Get_Component(ID_DYNAMIC, L"Com_Transform"));
-    _vec3 PlayerPos;
-    PlayerTrasform->Get_Info(INFO_POS, &PlayerPos);
-    PlayerPos.x -= 70 + (testNum * 30);
-    PlayerPos.z += 70;
-    m_pTransformCom->Set_Pos(PlayerPos);
+    m_CPlayer = dynamic_cast<CPlayer*>(
+        Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
     CGameObject* HPBar = CMonsterHPUI::Create(m_pGraphicDev);
     NULL_CHECK_RETURN(HPBar, );
@@ -58,7 +53,9 @@ void CMonsterMothMage::LateReady_GameObject()
     /////////////////////////////////////////////////////////////////////////////
     m_pMothMageOrb = CMonsterMothMageOrb::Create(m_pGraphicDev);
     NULL_CHECK_RETURN(m_pMothMageOrb, );
-    FAILED_CHECK_RETURN(m_pLayer->Add_GameObject(L"MonsterMothMageOrb", m_pMothMageOrb), );
+    objectName = new _tchar[32];
+    swprintf(objectName, 32, L"MonsterMothMageOrb%d", testNum);
+    FAILED_CHECK_RETURN(m_pLayer->Add_GameObject(objectName, m_pMothMageOrb), );
 
     (dynamic_cast<CMonsterMothMageOrb*>(m_pMothMageOrb))->SetMothMage(this);
     (dynamic_cast<CMonsterMothMageOrb*>(m_pMothMageOrb))->SetTextureCom(m_pTextureCom);
@@ -75,7 +72,10 @@ _int CMonsterMothMage::Update_GameObject(const _float& fTimeDelta)
     {
         if (m_tMonsterHP.iCurHP == 0)
         {
+            Engine::Play_Sound(L"SFX_92_MonsterMothMage_Death.wav", SOUND_EFFECT, 0.7);
+
             m_activation = false;
+            m_pMothMageOrb->SetActivation(false);
             CGameObject* pGameObject = CBranch::Create(m_pGraphicDev);
             NULL_CHECK_RETURN(pGameObject, E_FAIL);
 
@@ -204,6 +204,8 @@ void CMonsterMothMage::OnCollision(CGameObject* _pOther)
         m_bKnockBackTrigger = true;
         m_bInvincible = true;
         SetMonsterCurHP(-1);
+
+        Engine::Play_Sound(L"SFX_92_MonsterMothMage_Hit.wav", SOUND_EFFECT, 0.7);
     }
 }
 
@@ -347,6 +349,8 @@ void CMonsterMothMage::AttackPlayer()
     }
     if (m_pAnimatorCom->GetAnimation()->GetCurrentFrm() == 4 && !m_bIsShot)
     {
+        Engine::Play_Sound(L"SFX_92_MonsterMothMage_Shoot.wav", SOUND_EFFECT, 0.7);
+
         m_bIsShot = true;
         bulletCount++;
         _tchar* objectName = new _tchar[32];

@@ -93,7 +93,7 @@ HRESULT CMonsterHPUI::Add_Component()
 
 
     //HPFRAME
-    pComponent = m_pTextureCom[HPFRAME] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_HPFrame"));
+    pComponent = m_pTextureCom[HPFRAME] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterHPFrame"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[ID_DYNAMIC].insert({ L"Com_TextureFrame", pComponent });
 

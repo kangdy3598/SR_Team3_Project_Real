@@ -40,6 +40,8 @@ public:
 	virtual void	GetLayer(CLayer* _layer) { m_pLayer = _layer; }
 	virtual MONSTER_HP	GetMonsterHP() { return m_tMonsterHP; }
 	virtual _bool	GetActivation() { return m_activation; }
+	virtual void    SetActivation(_bool _activation) { m_activation = _activation; }
+
 protected:
 	virtual HRESULT	Add_Component();
 	virtual void	KnockBack(const _float& fTimeDelta, _vec3 vKnockBackDir);

@@ -25,6 +25,15 @@ void CMonsterMothMageOrb::LateReady_GameObject()
 {
     Engine::CGameObject::LateReady_GameObject();
 
+    CTransform* mothmageTrasform = static_cast<Engine::CTransform*>(
+        m_pMothMage->Get_Component(ID_DYNAMIC, L"Com_Transform"));
+
+    _vec3 mothmagePos;
+    mothmageTrasform->Get_Info(INFO_POS, &mothmagePos);
+    mothmagePos.y += 30;
+    mothmagePos.z -= 5;
+
+    m_pTransformCom->Set_Pos(mothmagePos);
 }
 
 _int CMonsterMothMageOrb::Update_GameObject(const _float& fTimeDelta)

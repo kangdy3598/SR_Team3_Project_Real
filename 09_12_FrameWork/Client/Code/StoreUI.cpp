@@ -131,6 +131,8 @@ void CStoreUI::Key_Input(const _float& fTimeDelta)
         m_ItemList.clear();
         m_bCall = false;
         m_pPlayer->SetVisitingStore(false);
+
+        Engine::Get_Layer(L"Layer_GameLogic")->SetGameState(GAMESTATE_NONE);
     }
 }
 

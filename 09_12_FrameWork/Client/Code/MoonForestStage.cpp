@@ -172,8 +172,6 @@ HRESULT CMoonForestStage::Ready_Layer_GameLogic(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"MoonForestMap", pGameObject), E_FAIL);
 
-	CGameObject* PlayerObj = pLayer->Get_GameObject(L"Layer_GameLogic", L"Player");
-
 	_float fOffsetX = 400;
 	_float fOffsetZ = 400;
 
